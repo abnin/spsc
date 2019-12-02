@@ -10,7 +10,8 @@ void login_adm();
 void menu_login_inicial();
 void login_usuario();
 int validar_login_usuario();
-int menu_adm();
+void menu_adm();
+void pedidos_adm();
 
 char intro(){
 	printf("                               STEVE'S PIZZA SYSTEM CONTROL (SPSC)\n");
@@ -20,13 +21,12 @@ struct cardapio{
 	char nome[50];
 	char tam;
 	int custo[100];	
-}bebida[100],sobremesa[100],sabor[100],cad_bedidas[100],cad_sobremesa[100],cad_sabores[100];
+}car_bebida[100],car_sobremesa[100],car_sabor[100],cad_bedidas[100],cad_sobremesa[100],cad_sabores[100];
 
 struct clientes{
 	char nome[50];
 	char ender[300];
 	float numcel[15];
-
 }cliente[1000],cad_cliente[1000];
 
 struct cadastro{
@@ -34,6 +34,12 @@ struct cadastro{
    char pass[20];
    int codigo;
 }usuario[1000],admin[50],cadastro_user[1000],cad_admin[50];
+
+struct pedidos{
+	char nome[50];
+	char tam;
+	int custo[100];
+}ped_sabor[50],ped_bebida[50],ped_sobremesa[50];
 
 int validar_login_usuario(int a,int c)
 {
@@ -232,9 +238,9 @@ void logar_adm()
        }
 }
 
-int menu_adm(){
+void menu_adm(){
    int op_adm;
-   char continua;
+
 
    tela_inicial_adm:
        printf("\n\t1- PEDIDOS\n");
@@ -246,50 +252,91 @@ int menu_adm(){
        scanf("%d", &op_adm);
        system("cls");
        if (op_adm == 1)
-       {	
-       	tela_pedidos:
-           printf("\n\t1- NOVO PEDIDO\n");
-           printf("\n\t2- EM PROCESSO\n");
-           printf("\n\t3- CONCLUIDOS\n");
-           scanf("%d",&op_adm);
-           system("cls");
-           if (op_adm == 1){
-				novo_pedido:
-				printf("\nSABOR:");
-				scanf("%s",&sabor->nome);
-				printf("\nBEBIDA:");
-				scanf("%s",&bebida->nome);
-				printf("\nENDERECO:");
-				scanf("%s",&cliente->ender);
-				printf("\nNOME:");
-				scanf("%s",&cliente->nome);
-				printf("\nTELEFONE:");
-				scanf("%d",&cliente->numcel);
+       { 
+	   	pedidos_adm();	
+    	}
+	   if (op_adm == 2)
+	   {
+	   	cardapio_adm();
+				   }			
+}
+void pedidos_adm(){
+	int op_adm=0;
+	char continua;
+   	tela_pedidos:
+       printf("\n\t1- NOVO PEDIDO\n");
+       printf("\n\t2- EM PROCESSO\n");
+       printf("\n\t3- CONCLUIDOS\n");
+       scanf("%d",&op_adm);
+       system("cls");	
+       if (op_adm == 1){
+		novo_pedido:
+		printf("\nSABOR:");
+		scanf("%s",&ped_sabor->nome);
+		printf("\nTAMANHO:");
+		scanf("%s",&ped_sabor->tam);
+		printf("\nBEBIDA:");
+		scanf("%s",&ped_bebida->nome);
+		printf("\nENDERECO:");
+		scanf("%s",&cliente->ender);
+		printf("\nNOME:");
+		scanf("%s",&cliente->nome);
+		printf("\nTELEFONE:");
+		scanf("%d",&cliente->numcel);
+		system("cls");
+		printf("\n\t----EM PROCESSO----\n");
+		printf("\n\tSABOR: %s\n",ped_sabor->nome);
+		printf("\n\tBEBIDA: %s\n",ped_bebida->nome);
+		printf("\n\tENDERECO: %s\n",cliente->ender);
+		printf("\n\tNOME: %s\n",cliente->nome);
+		printf("\n\tTELEFONE: %d\n",cliente->numcel);
+		printf("\n\t-------------------\n");
+		printf("Deseja fazer um novo pedido (s/n)?:");
+		scanf(" %c",&continua);
+		if(continua == 's'){
+			system("cls");
+			goto novo_pedido;
+		}	
+		if(continua == 'n'){
+			printf("Deseja voltar ao menu principal (s/n)?:");
+			scanf(" %c",&continua);
+			if (continua == 's'){
 				system("cls");
-				printf("\n\t----EM PROCESSO----\n");
-				printf("\n\tSABOR: %s\n",sabor->nome);
-				printf("\n\tBEBIDA: %s\n",bebida->nome);
-				printf("\n\tENDERECO: %s\n",cliente->ender);
-				printf("\n\tNOME: %s\n",cliente->nome);
-				printf("\n\tTELEFONE: %d\n",cliente->numcel);
-				printf("\n\t-------------------\n");
-				printf("Deseja fazer um novo pedido (s/n)?:");
-				scanf(" %c",&continua);
-				if(continua == 's'){
-					system("cls");
-					goto novo_pedido;
-				}	
-				if(continua == 'n'){
-					printf("Deseja voltar ao menu principal (s/n)?:");
-					scanf(" %c",&continua);
-					if (continua == 's'){
-						system("cls");
-						goto tela_inicial_adm;
+				return menu_adm();
 					}
 				}
 			}			
 		}			
-	}
+	
+void cardapio_adm(){
+	int op_adm=0;
+	int cod_sab=0, cod_beb=0, cod_sob=0;
+	char continua;
+   	tela_cardapio:
+       printf("\n\t1- NOVO SABOR\n");
+       printf("\n\t2- NOVA BEBIDA\n");
+       printf("\n\t3- NOVA SOBREMESA\n");
+       printf("\n\t4- LISTAR SABORES\n");
+       printf("\n\t4- LISTAR BEBIDAS\n");
+       printf("\n\t3- LISTAR SOBREMESAS\n");
+       scanf("%d",&op_adm);
+       system("cls");	
+       if (op_adm == 1){
+		novo_pedido:
+		printf("\n NOME SABOR:");
+		scanf("%s",&ped_sabor->nome);
+		printf("\nTAMANHO:");
+		scanf("%s",&ped_sabor->tam);
+		printf("\nBEBIDA:");
+		scanf("%s",&ped_bebida->nome);
+		printf("\nENDERECO:");
+		scanf("%s",&cliente->ender);
+		printf("\nNOME:");
+		scanf("%s",&cliente->nome);
+		printf("\nTELEFONE:");
+		scanf("%d",&cliente->numcel);
+		system("cls");
+}
 
 void menu_login_inicial()
 {
